@@ -82,6 +82,13 @@ const Game = () => {
                 <div className="team-container">
                     <h2>Player Team</h2>
                     {playerTeam.map(character => (
+                        <div className="container">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.FElMdumgHUSEUmMNXiZK7AHaHa?rs=1&pid=ImgDetMain"
+                            alt="example"
+                            className="image"
+                            style={{ maxWidth: '80px', maxHeight: '80px' }}
+                        />
                         <div key={character.id} className={`character-card ${character.health <= 0 ? 'dead' : ''}`}>
                             <p>Name: {character.name}</p>
                             <p>Health: {character.health}</p>
@@ -89,6 +96,7 @@ const Game = () => {
                             <p>Defense: {character.defense}</p>
                             <p>Attack: {character.attack}</p>
                         </div>
+                    </div>
                     ))}
                 </div>
 
@@ -96,6 +104,12 @@ const Game = () => {
                     <h2>Enemy Team</h2>
                     {enemyTeam.map(character => (
                         <div className="container">
+                            <img
+                                src="https://th.bing.com/th/id/OIP.FElMdumgHUSEUmMNXiZK7AHaHa?rs=1&pid=ImgDetMain"
+                                alt="example"
+                                className="image"
+                                style={{ maxWidth: '80px', maxHeight: '80px' }}
+                            />
                             <div key={character.id} className={`character-card ${character.health <= 0 ? 'dead' : ''}`}>
                                 <p>Name: {character.name}</p>
                                 <p>Health: {character.health}</p>
@@ -103,11 +117,6 @@ const Game = () => {
                                 <p>Defense: {character.defense}</p>
                                 <p>Attack: {character.attack}</p>
                             </div>
-                            <img
-                                src="https://th.bing.com/th/id/OIP.FElMdumgHUSEUmMNXiZK7AHaHa?rs=1&pid=ImgDetMain"
-                                alt="example"
-                                style={{ maxWidth: '80px', maxHeight: '80px' }}
-                            />
                         </div>
                     ))}
                 </div>

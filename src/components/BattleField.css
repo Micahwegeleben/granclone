@@ -35,10 +35,22 @@ body {
   
   .character-card {
     background-color: white;
+    padding-right: 150px;
     /* Your regular styling goes here */
   }
   
   .character-card.dead {
     background-color: rgb(92, 26, 26);
     color: rgb(219, 219, 219);
+  }
+
+  .container {
+    display: flex;
+  }
+  
+
+  .image {
+    max-width: 100px;
+    max-height: 100px;
+    /* Add any additional styling for the image as needed */
   }
