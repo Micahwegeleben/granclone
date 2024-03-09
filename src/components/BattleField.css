@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  .teams-wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .team-container {
+    width: 45%;
+    padding: 20px;
+    border: 2px solid #333;
+    margin: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .character-card {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    font-size: 16px;
+    padding: 10px;
+    margin: 20px;
+    cursor: pointer;
+  }
+  
+  .character-card {
+    background-color: white;
+    /* Your regular styling goes here */
+  }
+  
+  .character-card.dead {
+    background-color: rgb(92, 26, 26);
+    color: rgb(219, 219, 219);
+  }
