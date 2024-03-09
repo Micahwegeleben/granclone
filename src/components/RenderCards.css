@@ -1,16 +1,32 @@
 p {
-    margin: 15px 0 1px 0;
+	margin: 15px 0 1px 0;
 }
 
-
 .name {
-    margin-top: 8px;
-    font-size: 20px;
-    font-weight: bold;
+	margin-top: 8px;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 .bar {
-    border: 2px solid #d4d4d4;
-    border-radius: 8px;
-    padding-bottom: 5px;
+	border: 2px solid #d4d4d4;
+	border-radius: 8px;
+	padding-bottom: 5px;
+}
+
+.select-target-button {
+	height: 50px;
+	align-self: center;
+	margin-top: 15px;
+}
+
+.card-left {
+	display: flex;
+	flex-direction: column;
+}
+
+.skills {
+	display: flex;
+	flex-direction: column;
+	width: 120px;
 }
