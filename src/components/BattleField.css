@@ -12,18 +12,24 @@ body {
   
   .team-container {
     width: 45%;
-    padding: 20px;
+    padding: 20px 10px 20px 10px;
     border: 2px solid #333;
-    margin: 20px;
     border-radius: 8px;
+    margin: 20px;
     background-color: #fff;
+    /* Space up */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around
+    
   }
   
   .character-card {
     margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 5px;
+    border: 3px solid #ccc;
     border-radius: 5px;
+    
   }
   
   button {
@@ -35,7 +41,8 @@ body {
   
   .character-card {
     background-color: white;
-    padding-right: 150px;
+    padding-right: 25px;
+    width: 320px;
     /* Your regular styling goes here */
   }
   
@@ -44,13 +51,16 @@ body {
     color: rgb(219, 219, 219);
   }
 
-  .container {
+  .character-container {
     display: flex;
+    min-height: 250px;
   }
   
 
-  .image {
-    max-width: 100px;
-    max-height: 100px;
+  .icon {
+    max-width: 150px;
+    max-height: 86px;
     /* Add any additional styling for the image as needed */
   }
+
+  

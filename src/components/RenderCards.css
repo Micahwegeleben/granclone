@@ -1,0 +1,16 @@
+p {
+    margin: 15px 0 1px 0;
+}
+
+
+.name {
+    margin-top: 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.bar {
+    border: 2px solid #d4d4d4;
+    border-radius: 8px;
+    padding-bottom: 5px;
+}
