@@ -26,7 +26,7 @@ const Game = () => {
     }
     const handleReload = () => {
         window.location.reload();
-      };
+    };
 
     const handleAttackButton = () => {
         globalAttack(enemyTeam, setEnemyTeam, playerTeam)
@@ -95,12 +95,19 @@ const Game = () => {
                 <div className="team-container">
                     <h2>Enemy Team</h2>
                     {enemyTeam.map(character => (
-                        <div key={character.id} className={`character-card ${character.health <= 0 ? 'dead' : ''}`}>
-                            <p>Name: {character.name}</p>
-                            <p>Health: {character.health}</p>
-                            <p>Armor: {character.armor}</p>
-                            <p>Defense: {character.defense}</p>
-                            <p>Attack: {character.attack}</p>
+                        <div className="container">
+                            <div key={character.id} className={`character-card ${character.health <= 0 ? 'dead' : ''}`}>
+                                <p>Name: {character.name}</p>
+                                <p>Health: {character.health}</p>
+                                <p>Armor: {character.armor}</p>
+                                <p>Defense: {character.defense}</p>
+                                <p>Attack: {character.attack}</p>
+                            </div>
+                            <img
+                                src="https://th.bing.com/th/id/OIP.FElMdumgHUSEUmMNXiZK7AHaHa?rs=1&pid=ImgDetMain"
+                                alt="example"
+                                style={{ maxWidth: '80px', maxHeight: '80px' }}
+                            />
                         </div>
                     ))}
                 </div>
