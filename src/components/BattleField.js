@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './BattleField.css';
+import Button from '@mui/material/Button';
 import RenderPlayerTeam from './RenderPlayerTeam';
 import RenderEnemyTeam from './RenderEnemyTeam';
 import initialPlayerTeam from '../data/playerCharacters';
@@ -12,6 +13,7 @@ const Game = () => {
 	const [currentTurn, setCurrentTurn] = useState(1);
 	const [selectedTarget, setSelectedTarget] = useState(0);
 	const [gameState, setGameState] = useState('playing');
+	const [hoveredSkill, setHoveredSkill] = useState(playerTeam[0].skills[0]);
 
 	React.useEffect(() => {
 		playerTeam.forEach(character => {
@@ -23,6 +25,10 @@ const Game = () => {
 			});
 		});
 	}, [currentTurn]);
+
+	React.useEffect(() => {
+		console.log(hoveredSkill);
+	}, [hoveredSkill]);
 
 	const getRandomTarget = targetTeam => {
 		const availableTargets = targetTeam.filter(target => target.health > 0);
@@ -157,8 +163,41 @@ const Game = () => {
 							enemyTeam={enemyTeam}
 							selectedTarget={selectedTarget}
 							getRandomTarget={getRandomTarget}
+							hoveredSkill={hoveredSkill}
+							setHoveredSkill={setHoveredSkill}
 						/>
 					))}
+				</div>
+				<div>
+					<div className="container">
+						{hoveredSkill.name}
+						<br />
+						<br />
+						Cooldown: {hoveredSkill.maxCooldown}
+						<br />
+						<br />
+						{hoveredSkill.description}
+					</div>
+					<Button
+						variant="contained"
+						onClick={handleAttackButton}
+						size="large"
+						style={{
+							backgroundColor: '#f17c0a',
+							borderRadius: '30px',
+							width: '180px',
+							height: '70px',
+							margin: '4px',
+							marginBottom: '0px',
+							padding: '0px',
+							minWidth: '50px',
+							position: 'relative',
+							top: '50%',
+							border: '6px inset #c76c03',
+						}}
+					>
+						Attack
+					</Button>
 				</div>
 				<div className="team-container">
 					<h2>Enemy Team</h2>
@@ -171,7 +210,6 @@ const Game = () => {
 					))}
 				</div>
 			</div>
-			<button onClick={handleAttackButton}>Attack</button>
 			<button onClick={handleReloadButton}>New Game</button>
 			<div className="attack-log">
 				<h2>Attack Log</h2>

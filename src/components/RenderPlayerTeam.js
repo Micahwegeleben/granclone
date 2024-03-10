@@ -3,6 +3,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Button from '@mui/material/Button';
 import './BattleField.css';
 import './RenderCards.css';
+import Tooltip from '@mui/material/Tooltip';
 
 const handleSkillButton = ({
 	character,
@@ -30,6 +31,8 @@ const RenderTeam = ({
 	enemyTeam,
 	selectedTarget,
 	getRandomTarget,
+	hoveredSkill,
+	setHoveredSkill,
 }) => {
 	return (
 		<div className="character-container">
@@ -78,33 +81,38 @@ const RenderTeam = ({
 				{character.skills.map((skill, index) => {
 					return (
 						<div key={index}>
-							<Button
-								variant="contained"
-								onClick={() =>
-									handleSkillButton({
-										character,
-										skill,
-										playerTeam,
-										setPlayerTeam,
-										checkWin,
-										enemyTeam,
-										selectedTarget,
-										getRandomTarget,
-									})
-								}
-								disabled={character.health <= 0 || skill.cooldown > 0 || gameState !== 'playing'}
-								style={{
-									width: '50px',
-									height: '50px',
-									borderRadius: '0px',
-									margin: '4px',
-									marginBottom: '0px',
-									padding: '0px',
-									minWidth: '50px',
-								}}
-							>
-								{index + 1}
-							</Button>
+							<Tooltip title={`Cooldown Remaining: ${skill.cooldown}`} followCursor>
+								<span>
+									<Button
+										variant="contained"
+										onMouseEnter={() => setHoveredSkill(skill)}
+										onClick={() =>
+											handleSkillButton({
+												character,
+												skill,
+												playerTeam,
+												setPlayerTeam,
+												checkWin,
+												enemyTeam,
+												selectedTarget,
+												getRandomTarget,
+											})
+										}
+										disabled={character.health <= 0 || skill.cooldown > 0 || gameState !== 'playing'}
+										style={{
+											width: '50px',
+											height: '50px',
+											borderRadius: '0px',
+											margin: '4px',
+											marginBottom: '0px',
+											padding: '0px',
+											minWidth: '50px',
+										}}
+									>
+										{index + 1}
+									</Button>
+								</span>
+							</Tooltip>
 						</div>
 					);
 				})}

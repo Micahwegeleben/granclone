@@ -22,10 +22,10 @@ const initialPlayerTeam = [
 					let target = null;
 					if (selectedTarget !== undefined && selectedTarget !== 0) {
 						target = enemyTeam.find(target => target.id === selectedTarget);
-						console.log('fireball has hit222', target);
+						console.log('fireball has hit a selected target: ', target);
 					} else {
 						target = enemyTeam.find(target => target.id === 4 || target.id === 5 || target.id === 6);
-						console.log('fireball has hit', target.name);
+						console.log('fireball has hit the first available target: ', target.name);
 					}
 				},
 			},
