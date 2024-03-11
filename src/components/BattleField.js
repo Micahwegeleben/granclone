@@ -20,15 +20,35 @@ const Game = () => {
 			character.skills.forEach(skill => {
 				if (skill.cooldown > 0) {
 					skill.cooldown -= 1;
-					setPlayerTeam(playerTeam.map(character => ({ ...character })));
+				}
+			});
+			character.buffs.forEach(buff => {
+				if (buff.duration > 0) {
+					buff.duration -= 1;
 				}
 			});
 		});
+		setPlayerTeam(playerTeam.map(character => ({ ...character })));
 	}, [currentTurn]);
 
 	React.useEffect(() => {
 		console.log(hoveredSkill);
 	}, [hoveredSkill]);
+
+	const applyBuff = (character, buffType, duration) => {
+		const newBuff = { type: buffType, duration };
+
+		// Check if a similar buff already exists, and update its duration if so
+		const existingBuffIndex = character.buffs.findIndex(buff => buff.type === buffType);
+		if (existingBuffIndex !== -1) {
+			character.buffs[existingBuffIndex].duration = duration;
+		} else {
+			character.buffs.push(newBuff);
+		}
+
+		// Return the updated character object
+		return { ...character };
+	};
 
 	const getRandomTarget = targetTeam => {
 		const availableTargets = targetTeam.filter(target => target.health > 0);

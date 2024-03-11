@@ -2,6 +2,7 @@ const initialPlayerTeam = [
 	{
 		id: 1,
 		name: 'Korwa',
+		buffs: [],
 		health: 1000.0,
 		maxHealth: 1000.0,
 		mana: 100.0,
@@ -61,6 +62,7 @@ const initialPlayerTeam = [
 	{
 		id: 2,
 		name: 'Zeta',
+		buffs: [],
 		health: 1000.0,
 		maxHealth: 1000.0,
 		mana: 100.0,
@@ -110,6 +112,7 @@ const initialPlayerTeam = [
 	{
 		id: 3,
 		name: 'Sandalphon',
+		buffs: [],
 		health: 1000.0,
 		maxHealth: 1000.0,
 		mana: 100.0,
