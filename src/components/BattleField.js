@@ -14,6 +14,7 @@ const Game = () => {
 	const [selectedTarget, setSelectedTarget] = useState(0);
 	const [gameState, setGameState] = useState('playing');
 	const [hoveredSkill, setHoveredSkill] = useState(playerTeam[0].skills[0]);
+	const [showDescriptions, setShowDescriptions] = useState(false);
 
 	React.useEffect(() => {
 		playerTeam.forEach(character => {
@@ -23,11 +24,33 @@ const Game = () => {
 				}
 			});
 			character.buffs.forEach(buff => {
-				if (buff.duration > 0) {
-					buff.duration -= 1;
+				if (buff.remainingDuration > 0) {
+					buff.remainingDuration -= 1;
+					if (buff.remainingDuration === 0) {
+						///then remove the buff
+						const index = character.buffs.indexOf(buff);
+						if (index > -1) {
+							character.buffs.splice(index, 1);
+						}
+					}
 				}
 			});
 		});
+		enemyTeam.forEach(character => {
+			character.buffs.forEach(buff => {
+				if (buff.remainingDuration > 0) {
+					buff.remainingDuration -= 1;
+					if (buff.remainingDuration === 0) {
+						///then remove the buff
+						const index = character.buffs.indexOf(buff);
+						if (index > -1) {
+							character.buffs.splice(index, 1);
+						}
+					}
+				}
+			});
+		});
+
 		setPlayerTeam(playerTeam.map(character => ({ ...character })));
 	}, [currentTurn]);
 
@@ -35,13 +58,13 @@ const Game = () => {
 		console.log(hoveredSkill);
 	}, [hoveredSkill]);
 
-	const applyBuff = (character, buffType, duration) => {
-		const newBuff = { type: buffType, duration };
+	const applyBuff = (character, buffName, remainingDuration) => {
+		const newBuff = { name: buffName, remainingDuration };
 
 		// Check if a similar buff already exists, and update its duration if so
-		const existingBuffIndex = character.buffs.findIndex(buff => buff.type === buffType);
+		const existingBuffIndex = character.buffs.findIndex(buff => buff.name === buffName);
 		if (existingBuffIndex !== -1) {
-			character.buffs[existingBuffIndex].duration = duration;
+			character.buffs[existingBuffIndex].remainingDuration = remainingDuration;
 		} else {
 			character.buffs.push(newBuff);
 		}
@@ -126,6 +149,9 @@ const Game = () => {
 			const updatedTargetTeam = [...targetTeam];
 			if (Array.isArray(availableTargets) && availableTargets.length > 0 && availableAttackers.length > 0) {
 				setCurrentTurn(currentTurn + 1);
+				applyBuff(playerTeam[0], 'Attack Up', 3);
+				applyBuff(playerTeam[1], 'Attack Up', 3);
+				applyBuff(playerTeam[2], 'Attack Up', 3);
 				attackerTeam.forEach(attacker => {
 					if (attacker.health > 0) {
 						let target = determineTarget({
@@ -198,6 +224,61 @@ const Game = () => {
 						<br />
 						{hoveredSkill.description}
 					</div>
+					<div className="container">
+						<Button
+							onClick={() => {
+								setShowDescriptions(!showDescriptions);
+
+							}}
+						>Toggle Descriptions</Button>
+						{
+							playerTeam.map(character => {
+								return (
+									<div>
+										{character.name}
+										<br />
+										{character.buffs.map(buff => {
+											return (
+												<div>
+													{buff.name}
+													<p1> - </p1>
+													{buff.remainingDuration}
+													<p1> turns remaining</p1>
+													{showDescriptions ? <p1> - {buff.description}</p1> : null}
+
+												</div>
+											);
+										})}
+										<br />
+									</div>
+								);
+							})
+						}
+					</div>
+					<div className="container">
+						{
+							enemyTeam.map(character => {
+								return (
+									<div>
+										{character.name}
+										<br />
+										{character.buffs.map(buff => {
+											return (
+												<div>
+													{buff.name}
+													<p1> - </p1>
+													{buff.remainingDuration}
+													<p1> turns remaining</p1>
+													{showDescriptions ? <p1> - {buff.description}</p1> : null}
+												</div>
+											);
+										})}
+										<br />
+									</div>
+								);
+							})
+						}
+					</div>
 					<Button
 						variant="contained"
 						onClick={handleAttackButton}
@@ -212,8 +293,9 @@ const Game = () => {
 							padding: '0px',
 							minWidth: '50px',
 							position: 'relative',
-							top: '50%',
 							border: '6px inset #c76c03',
+							left: '30%',
+
 						}}
 					>
 						Attack

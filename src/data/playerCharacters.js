@@ -2,7 +2,23 @@ const initialPlayerTeam = [
 	{
 		id: 1,
 		name: 'Korwa',
-		buffs: [],
+		buffs: [
+			{
+				name: 'Attack Up1',
+				description: 'Increases attack by 50%',
+				remainingDuration: 3,
+			},
+			{
+				name: 'Attack Up2',
+				description: 'Increases attack by 50%',
+				remainingDuration: 4,
+			},
+			{
+				name: 'Attack Up3',
+				description: 'Increases attack by 50%',
+				remainingDuration: 3,
+			},
+		],
 		health: 1000.0,
 		maxHealth: 1000.0,
 		mana: 100.0,
@@ -13,7 +29,7 @@ const initialPlayerTeam = [
 		skills: [
 			{
 				id: 1,
-				name: 'Fireball',
+				name: 'Fireball1',
 				description: 'Pew',
 				damage: 200,
 				manaCost: 50,
@@ -32,7 +48,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 2,
-				name: 'Heal',
+				name: 'Heal1',
 				description: 'Yum!',
 				healAmount: 150,
 				manaCost: 75,
@@ -41,7 +57,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 3,
-				name: 'Shield',
+				name: 'Shield1',
 				description: 'Dink!',
 				armorIncrease: 50,
 				manaCost: 100,
@@ -50,7 +66,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 4,
-				name: 'Other',
+				name: 'Other1',
 				description: 'Dink!',
 				armorIncrease: 50,
 				manaCost: 100,
@@ -73,7 +89,7 @@ const initialPlayerTeam = [
 		skills: [
 			{
 				id: 1,
-				name: 'Fireball',
+				name: 'Fireball2',
 				description: 'Pew',
 				damage: 200,
 				manaCost: 50,
@@ -82,7 +98,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 2,
-				name: 'Heal',
+				name: 'Heal2',
 				description: 'Yum!',
 				healAmount: 150,
 				manaCost: 75,
@@ -91,7 +107,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 3,
-				name: 'Shield',
+				name: 'Shield2',
 				description: 'Dink!',
 				armorIncrease: 50,
 				manaCost: 100,
@@ -100,7 +116,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 4,
-				name: 'Other',
+				name: 'Other2',
 				description: 'Dink!',
 				armorIncrease: 50,
 				manaCost: 100,
@@ -123,7 +139,7 @@ const initialPlayerTeam = [
 		skills: [
 			{
 				id: 1,
-				name: 'Fireball',
+				name: 'Fireball3',
 				description: 'Pew',
 				damage: 200,
 				manaCost: 50,
@@ -132,7 +148,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 2,
-				name: 'Heal',
+				name: 'Heal3',
 				description: 'Yum!',
 				healAmount: 150,
 				manaCost: 75,
@@ -141,7 +157,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 3,
-				name: 'Shield',
+				name: 'Shield3',
 				description: 'Dink!',
 				armorIncrease: 50,
 				manaCost: 100,
@@ -150,7 +166,7 @@ const initialPlayerTeam = [
 			},
 			{
 				id: 4,
-				name: 'Other',
+				name: 'Other3',
 				description: 'Dink!',
 				armorIncrease: 50,
 				manaCost: 100,
