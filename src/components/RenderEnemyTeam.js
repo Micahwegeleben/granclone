@@ -3,8 +3,27 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Button from '@mui/material/Button';
 import './BattleField.css';
 import './RenderCards.css';
+import { useGameState } from './GameStateContext';
 
-const RenderTeam = ({ character, selectedTarget, handleSelectTargetButton }) => {
+const RenderTeam = ({ character, handleSelectTargetButton }) => {
+	const {
+		playerTeam,
+		setPlayerTeam,
+		enemyTeam,
+		setEnemyTeam,
+		attackLog,
+		setAttackLog,
+		currentTurn,
+		setCurrentTurn,
+		selectedTarget,
+		setSelectedTarget,
+		gameState,
+		setGameState,
+		hoveredSkill,
+		setHoveredSkill,
+		showDescriptions,
+		setShowDescriptions,
+	} = useGameState();
 	return (
 		<div className="character-container">
 			<div className="card-left">

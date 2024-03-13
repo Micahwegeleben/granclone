@@ -4,35 +4,45 @@ import Button from '@mui/material/Button';
 import './BattleField.css';
 import './RenderCards.css';
 import Tooltip from '@mui/material/Tooltip';
-import {checkWin} from './utils';
+import { checkWin } from './utils';
+import { useGameState } from './GameStateContext';
 
-const handleSkillButton = ({
-	character,
-	skill,
-	playerTeam,
-	setPlayerTeam,
-	enemyTeam,
-	selectedTarget,
-	gameState,
-	setGameState
-}) => {
-	skill.cooldown = skill.maxCooldown;
-	setPlayerTeam(playerTeam.map(character => ({ ...character })));
-	skill.useSkill({ character, playerTeam, enemyTeam, selectedTarget });
-	checkWin({playerTeam, enemyTeam, setGameState});
+const handleSkillButton = props => {
+	props.skill.cooldown = props.skill.maxCooldown;
+	props.setPlayerTeam(props.playerTeam.map(char => ({ ...char })));
+	props.skill.useSkill({
+		character: props.character,
+		playerTeam: props.playerTeam,
+		enemyTeam: props.enemyTeam,
+		selectedTarget: props.selectedTarget,
+	});
+	checkWin({
+		playerTeam: props.playerTeam,
+		enemyTeam: props.enemyTeam,
+		setGameState: props.setGameState,
+	});
 };
 
-const RenderTeam = ({
-	character,
-	playerTeam,
-	setPlayerTeam,
-	enemyTeam,
-	selectedTarget,
-	hoveredSkill,
-	setHoveredSkill,
-	gameState,
-	setGameState
-}) => {
+const RenderTeam = ({ character }) => {
+	const {
+		playerTeam,
+		setPlayerTeam,
+		enemyTeam,
+		setEnemyTeam,
+		attackLog,
+		setAttackLog,
+		currentTurn,
+		setCurrentTurn,
+		selectedTarget,
+		setSelectedTarget,
+		gameState,
+		setGameState,
+		hoveredSkill,
+		setHoveredSkill,
+		showDescriptions,
+		setShowDescriptions,
+	} = useGameState();
+
 	return (
 		<div className="character-container">
 			<img src={character.img} alt="example" className="icon" />
