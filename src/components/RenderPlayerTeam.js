@@ -4,35 +4,34 @@ import Button from '@mui/material/Button';
 import './BattleField.css';
 import './RenderCards.css';
 import Tooltip from '@mui/material/Tooltip';
+import {checkWin} from './utils';
 
 const handleSkillButton = ({
 	character,
 	skill,
 	playerTeam,
 	setPlayerTeam,
-	checkWin,
 	enemyTeam,
 	selectedTarget,
-	getRandomTarget,
+	gameState,
+	setGameState
 }) => {
-	//put skill on cooldown
 	skill.cooldown = skill.maxCooldown;
 	setPlayerTeam(playerTeam.map(character => ({ ...character })));
 	skill.useSkill({ character, playerTeam, enemyTeam, selectedTarget });
-	checkWin();
+	checkWin({playerTeam, enemyTeam, setGameState});
 };
 
 const RenderTeam = ({
 	character,
 	playerTeam,
 	setPlayerTeam,
-	checkWin,
-	gameState,
 	enemyTeam,
 	selectedTarget,
-	getRandomTarget,
 	hoveredSkill,
 	setHoveredSkill,
+	gameState,
+	setGameState
 }) => {
 	return (
 		<div className="character-container">
@@ -92,10 +91,10 @@ const RenderTeam = ({
 												skill,
 												playerTeam,
 												setPlayerTeam,
-												checkWin,
 												enemyTeam,
 												selectedTarget,
-												getRandomTarget,
+												gameState,
+												setGameState,
 											})
 										}
 										disabled={character.health <= 0 || skill.cooldown > 0 || gameState !== 'playing'}

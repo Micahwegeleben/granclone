@@ -35,7 +35,7 @@ const initialPlayerTeam = [
 				manaCost: 50,
 				maxCooldown: 5,
 				cooldown: 0,
-				useSkill: function ({ character, playerTeam, enemyTeam, selectedTarget, getRandomTarget }) {
+				useSkill: function ({ character, playerTeam, enemyTeam, selectedTarget }) {
 					let target = null;
 					if (selectedTarget !== undefined && selectedTarget !== 0) {
 						target = enemyTeam.find(target => target.id === selectedTarget);

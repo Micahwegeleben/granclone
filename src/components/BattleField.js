@@ -5,6 +5,9 @@ import RenderPlayerTeam from './RenderPlayerTeam';
 import RenderEnemyTeam from './RenderEnemyTeam';
 import initialPlayerTeam from '../data/playerCharacters';
 import initialEnemyTeam from '../data/enemyCharacters';
+import {calcDamage, getRandomTarget, determineTarget, handleDamage, checkWin} from './utils';
+
+
 
 const Game = () => {
 	const [playerTeam, setPlayerTeam] = useState(initialPlayerTeam);
@@ -73,11 +76,7 @@ const Game = () => {
 		return { ...character };
 	};
 
-	const getRandomTarget = targetTeam => {
-		const availableTargets = targetTeam.filter(target => target.health > 0);
-		const randomIndex = Math.floor(Math.random() * availableTargets.length);
-		return availableTargets[randomIndex];
-	};
+	
 	const handleReloadButton = () => {
 		window.location.reload();
 	};
@@ -99,37 +98,7 @@ const Game = () => {
 		globalAttack(playerTeam, setPlayerTeam, enemyTeam);
 	};
 
-	const determineTarget = ({ targetTeam, attackerTeam, availableTargets }) => {
-		let target = null;
-		if (attackerTeam === playerTeam) {
-			target = availableTargets.find(target => target.id === selectedTarget);
-			if (target === undefined) {
-				target = getRandomTarget(targetTeam);
-			} else {
-				if (target.health <= 0) {
-					target = getRandomTarget(targetTeam);
-				}
-			}
-		} else {
-			target = getRandomTarget(targetTeam);
-		}
-		return target;
-	};
-
-	const calcDamage = ({ target, attacker }) => {
-		let armorCalc = target.armor;
-		if (armorCalc > 50) {
-			armorCalc = 50;
-		}
-		return attacker.attack - armorCalc;
-	};
-
-	const handleDamage = ({ target, damage }) => {
-		target.health -= damage;
-		if (target.health < 0) {
-			target.health = 0;
-		}
-	};
+	
 
 	const battleLog = ({ attacker, target, damage }) => {
 		const attackDetails = {
@@ -149,15 +118,14 @@ const Game = () => {
 			const updatedTargetTeam = [...targetTeam];
 			if (Array.isArray(availableTargets) && availableTargets.length > 0 && availableAttackers.length > 0) {
 				setCurrentTurn(currentTurn + 1);
-				applyBuff(playerTeam[0], 'Attack Up', 3);
-				applyBuff(playerTeam[1], 'Attack Up', 3);
-				applyBuff(playerTeam[2], 'Attack Up', 3);
 				attackerTeam.forEach(attacker => {
 					if (attacker.health > 0) {
 						let target = determineTarget({
 							targetTeam,
 							attackerTeam,
-							availableTargets,
+							availableTargets, 
+							playerTeam, 
+							selectedTarget
 						});
 						if (target !== undefined) {
 							let damage = calcDamage({ target, attacker });
@@ -175,23 +143,11 @@ const Game = () => {
 					}
 				}
 				setTargetTeam(updatedTargetTeam);
-				checkWin();
+				checkWin({playerTeam, enemyTeam, setGameState});
 			}
 		}
 	};
-	const checkWin = () => {
-		const availablePlayers = playerTeam.filter(target => target.health > 0);
-		const availableEnemies = enemyTeam.filter(target => target.health > 0);
-		if (availableEnemies <= 0) {
-			alert('Win');
-			setGameState('win');
-		} else {
-			if (availablePlayers <= 0) {
-				alert('Loss');
-				setGameState('loss');
-			}
-		}
-	};
+	
 	/* ---------------------------------------------- */
 	return (
 		<div>
@@ -204,13 +160,12 @@ const Game = () => {
 							character={character}
 							playerTeam={playerTeam}
 							setPlayerTeam={setPlayerTeam}
-							checkWin={checkWin}
-							gameState={gameState}
 							enemyTeam={enemyTeam}
 							selectedTarget={selectedTarget}
-							getRandomTarget={getRandomTarget}
 							hoveredSkill={hoveredSkill}
 							setHoveredSkill={setHoveredSkill}
+							gameState={gameState}
+							setGameState={setGameState}
 						/>
 					))}
 				</div>
