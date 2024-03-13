@@ -59,6 +59,26 @@ const BattleFieldRender = ({ globalAttack }) => {
 					))}
 				</div>
 				<div>
+					<Button
+						variant="contained"
+						onClick={handleAttackButton}
+						size="large"
+						style={{
+							backgroundColor: '#f17c0a',
+							borderRadius: '30px',
+							width: '180px',
+							height: '70px',
+							margin: '4px',
+							marginBottom: '0px',
+							padding: '0px',
+							minWidth: '50px',
+							position: 'relative',
+							border: '6px inset #c76c03',
+							left: '30%',
+						}}
+					>
+						Attack
+					</Button>
 					<div className="container">
 						{hoveredSkill.name}
 						<br />
@@ -119,26 +139,6 @@ const BattleFieldRender = ({ globalAttack }) => {
 							);
 						})}
 					</div>
-					<Button
-						variant="contained"
-						onClick={handleAttackButton}
-						size="large"
-						style={{
-							backgroundColor: '#f17c0a',
-							borderRadius: '30px',
-							width: '180px',
-							height: '70px',
-							margin: '4px',
-							marginBottom: '0px',
-							padding: '0px',
-							minWidth: '50px',
-							position: 'relative',
-							border: '6px inset #c76c03',
-							left: '30%',
-						}}
-					>
-						Attack
-					</Button>
 				</div>
 
 				<div className="team-container">
