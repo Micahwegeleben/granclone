@@ -5,6 +5,18 @@ import RenderPlayerTeam from './RenderPlayerTeam';
 import RenderEnemyTeam from './RenderEnemyTeam';
 import { useGameState } from './GameStateContext';
 import { calcDamage, determineTarget, handleDamage, checkWin, battleLog } from './utils';
+import './GameOverScreen.css';
+
+const GameOverScreen = ({ onRestart, victory }) => {
+	return (
+		<div className="gameover-overlay">
+			<div className="gameover-content">
+				{victory ? <p>You win!</p> : <p>You lose!</p>}
+				<button onClick={onRestart}>Restart</button>
+			</div>
+		</div>
+	);
+};
 
 const BattleFieldRender = ({ globalAttack }) => {
 	const {
@@ -48,9 +60,16 @@ const BattleFieldRender = ({ globalAttack }) => {
 		globalAttack(playerTeam, setPlayerTeam, enemyTeam);
 	};
 
+	const handleRestart = () => {
+		window.location.reload();
+	};
+
 	return (
 		<div>
 			<h1>Granblue Clone</h1>
+			{gameState === 'win' && <GameOverScreen onRestart={handleRestart} victory={true} />}
+			{gameState === 'loss' && <GameOverScreen onRestart={handleRestart} victory={false} />}
+			{gameState === 'win' || ('loss' && <div className="freeze-layer" />)}
 			<div className="teams-wrapper">
 				<div className="team-container">
 					<h2>Player Team</h2>

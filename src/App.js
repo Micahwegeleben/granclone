@@ -14,6 +14,19 @@ function App() {
 	const [gameState, setGameState] = useState('start');
 	const [hoveredSkill, setHoveredSkill] = useState(playerTeam[0].skills[0]);
 	const [showDescriptions, setShowDescriptions] = useState(false);
+
+	const initialize = () => {
+		setPlayerTeam(...initialPlayerTeam);
+		setEnemyTeam(...initialEnemyTeam);
+		setAttackLog([]);
+		setCurrentTurn(1);
+		setSelectedTarget(0);
+		setGameState('start');
+		setHoveredSkill(playerTeam[0].skills[0]);
+		setShowDescriptions(false);
+		//wip
+		window.location.reload();
+	};
 	return (
 		<GameStateContext.Provider
 			value={{
@@ -49,23 +62,7 @@ function App() {
 							Start Game
 						</Button>
 					) : (
-						<p
-							style={{
-								textAlign: 'center',
-								fontSize: '3em',
-								marginTop: '2em',
-								color: 'red',
-							}}
-						>
-							GAME OVER
-							<Button
-								variant="contained"
-								onClick={() => window.location.reload()}
-								style={{ margin: 'auto', display: 'block', marginTop: '20px' }}
-							>
-								RESTART
-							</Button>
-						</p>
+						<BattleField />
 					)
 				}
 			</div>

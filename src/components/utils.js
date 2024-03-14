@@ -40,11 +40,9 @@ export const checkWin = ({ playerTeam, enemyTeam, setGameState }) => {
 	const availablePlayers = playerTeam.filter(target => target.health > 0);
 	const availableEnemies = enemyTeam.filter(target => target.health > 0);
 	if (availableEnemies <= 0) {
-		alert('Win');
 		setGameState('win');
 	} else {
 		if (availablePlayers <= 0) {
-			alert('Loss');
 			setGameState('loss');
 		}
 	}
