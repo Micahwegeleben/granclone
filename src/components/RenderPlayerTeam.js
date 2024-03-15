@@ -6,6 +6,14 @@ import './RenderCards.css';
 import Tooltip from '@mui/material/Tooltip';
 import { checkWin } from './utils';
 import { useGameState } from './GameStateContext';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { orange } from '@mui/material/colors';
+
+const theme = createTheme({
+	palette: {
+		secondary: orange,
+	},
+});
 
 const handleSkillButton = props => {
 	props.skill.cooldown = props.skill.maxCooldown;
@@ -79,10 +87,28 @@ const RenderTeam = ({ character }) => {
 						borderRadius: '50px', // Optional: add rounded corners
 						boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', // Optional: add a subtle shadow
 						height: '12px',
-						width: `${24 + (75 * Math.log10(character.maxHealth / 500)) / 3.25}%`,
+						width: `100px`,
 					}}
 					color="primary"
 				/>
+				<p>
+					Charge: {character.charge}/{character.maxCharge}
+				</p>
+				<ThemeProvider theme={theme}>
+					<LinearProgress
+						variant="determinate"
+						value={(character.charge / character.maxCharge) * 100}
+						style={{
+							backgroundColor: 'gray',
+							transition: 'background-color 0.5s ease', // Add a transition for a smoother
+							borderRadius: '50px', // Optional: add rounded corners
+							boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', // Optional: add a subtle shadow
+							height: '12px',
+							width: `100px`,
+						}}
+						color="secondary"
+					/>
+				</ThemeProvider>
 				<p>Attack: {character.attack}</p>
 				<p>Armor: {character.armor}</p>
 			</div>
