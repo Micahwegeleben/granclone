@@ -3,7 +3,7 @@ import './BattleField.css';
 import Button from '@mui/material/Button';
 import RenderPlayerTeam from './RenderPlayerTeam';
 import RenderEnemyTeam from './RenderEnemyTeam';
-import { calcDamage, determineTarget, handleDamage, checkWin, battleLog } from './utils';
+import { calcDamage, determineTarget, handleDamage, checkWin, battleLog, handleChargeGain } from './utils';
 import { useGameState } from './GameStateContext';
 import BattleFieldRender from './BattleFieldRender';
 
@@ -26,9 +26,6 @@ const Game = () => {
 		showDescriptions,
 		setShowDescriptions,
 	} = useGameState();
-
-	//create an array of all my state variables to be passed in
-	const stateVariables = [playerTeam, enemyTeam, currentTurn, selectedTarget, gameState, hoveredSkill, showDescriptions];
 
 	React.useEffect(() => {
 		playerTeam.forEach(character => {
@@ -86,6 +83,18 @@ const Game = () => {
 		return { ...character };
 	};
 
+	const attackCharge = (attacker, target) => {
+		let damage = calcDamage({ target, attacker }) * 2;
+		handleDamage({ target, damage });
+		attacker.charge = 0;
+		battleLog({ attacker, target, damage, currentTurn, setAttackLog });
+	};
+	const attackNormal = (attacker, target) => {
+		let damage = calcDamage({ target, attacker });
+		handleDamage({ target, damage });
+		battleLog({ attacker, target, damage, currentTurn, setAttackLog });
+	};
+
 	const globalAttack = (targetTeam, setTargetTeam, attackerTeam) => {
 		if (gameState === 'playing') {
 			const availableTargets = targetTeam.filter(target => target.health > 0);
@@ -103,12 +112,31 @@ const Game = () => {
 							selectedTarget,
 						});
 						if (target !== undefined) {
-							let damage = calcDamage({ target, attacker });
-							handleDamage({ target, damage });
-							battleLog({ attacker, target, damage, currentTurn, setAttackLog });
+							if (attacker.charge >= 100) {
+								attackCharge(attacker, target);
+								attacker.chargeLockOut = true;
+								attackerTeam.forEach(char => {
+									if (char.id !== attacker.id) {
+										if (char.chargeLockOut === false) {
+											console.log(char.chargeLockOut);
+											handleChargeGain({ attacker: char, times: 1 });
+										}
+									}
+								});
+							} else {
+								attackNormal(attacker, target);
+								if (attackerTeam === playerTeam) {
+									handleChargeGain({ attacker, times: 1 });
+								}
+							}
 						}
 					}
 				});
+				if (attackerTeam === playerTeam) {
+					attackerTeam.forEach(char => {
+						char.chargeLockOut = false;
+					});
+				}
 				if (availableTargets.find(target => target.id === selectedTarget) !== undefined) {
 					if (selectedTarget !== 0) {
 						const selectedTargetObj = updatedTargetTeam.find(target => target.id === selectedTarget);
@@ -119,8 +147,8 @@ const Game = () => {
 				}
 				setTargetTeam(updatedTargetTeam);
 				checkWin({ playerTeam, enemyTeam, setGameState });
-			}
-		}
+			} //end of middle if
+		} //end of main if
 	};
 
 	/* ---------------------------------------------- */

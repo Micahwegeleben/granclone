@@ -36,6 +36,19 @@ export const handleDamage = ({ target, damage }) => {
 	}
 };
 
+export const handleChargeGain = ({ attacker, times }) => {
+	//if times isnt defined, set it to 1
+	if (times === undefined) {
+		times = 1;
+	}
+	for (let i = 0; i < times; i++) {
+		attacker.charge += 10;
+		if (attacker.charge > 100) {
+			attacker.charge = 100;
+		}
+	}
+};
+
 export const checkWin = ({ playerTeam, enemyTeam, setGameState }) => {
 	const availablePlayers = playerTeam.filter(target => target.health > 0);
 	const availableEnemies = enemyTeam.filter(target => target.health > 0);

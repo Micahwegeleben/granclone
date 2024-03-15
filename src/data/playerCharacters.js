@@ -2,6 +2,7 @@ const initialPlayerTeam = [
 	{
 		id: 1,
 		name: 'Korwa',
+		chargeLockOut: false,
 		buffs: [
 			{
 				name: 'Attack Up1',
@@ -25,7 +26,7 @@ const initialPlayerTeam = [
 		maxMana: 100.0,
 		armor: 10,
 		attack: 250,
-		charge: 0,
+		charge: 20,
 		maxCharge: 100,
 		img: 'https://gbf.wiki/images/thumb/f/f9/Npc_m_3040081000_01.jpg/150px-Npc_m_3040081000_01.jpg',
 		skills: [
@@ -80,6 +81,7 @@ const initialPlayerTeam = [
 	{
 		id: 2,
 		name: 'Zeta',
+		chargeLockOut: false,
 		buffs: [],
 		health: 1000.0,
 		maxHealth: 1000.0,
@@ -132,6 +134,7 @@ const initialPlayerTeam = [
 	{
 		id: 3,
 		name: 'Sandalphon',
+		chargeLockOut: false,
 		buffs: [],
 		health: 1000.0,
 		maxHealth: 1000.0,
