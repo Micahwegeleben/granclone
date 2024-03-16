@@ -111,6 +111,39 @@ const Game = () => {
 		battleLog({ attacker, target, damage, currentTurn, setAttackLog, attackLog });
 	};
 
+	const handlePlayerTurn = ({ attacker, attackerTeam, target, chargeAttacksHappened }) => {
+		if (attacker.charge >= 100 && holdCharge === false) {
+			chargeAttacksHappened += 1;
+			attackCharge(attacker, target);
+			attacker.chargeLockOut = true;
+			attackerTeam.forEach(char => {
+				if (char.id !== attacker.id) {
+					if (char.chargeLockOut === false) {
+						handleChargeGain({ attacker: char, times: 1 });
+					}
+				}
+			});
+		} else {
+			attackNormal(attacker, target);
+			if (attackerTeam === playerTeam) {
+				handleChargeGain({ attacker, times: 1 });
+			}
+		}
+		return chargeAttacksHappened;
+	};
+
+	const handleEnemyTurn = ({ attacker, attackerTeam, target }) => {
+		if (attacker.diamonds === attacker.maxDiamonds) {
+			attackCharge(attacker, target);
+			attacker.diamonds = 0;
+		} else {
+			attackNormal(attacker, target);
+			if (attacker.diamonds < attacker.maxDiamonds) {
+				attacker.diamonds += 1;
+			}
+		}
+	};
+
 	const globalAttack = (targetTeam, setTargetTeam, attackerTeam) => {
 		if (gameState === 'playing') {
 			const availableTargets = targetTeam.filter(target => target.health > 0);
@@ -129,35 +162,32 @@ const Game = () => {
 							selectedTarget,
 						});
 						if (target !== undefined) {
-							if (attacker.charge >= 100 && holdCharge === false) {
-								chargeAttacksHappened += 1;
-								attackCharge(attacker, target);
-								attacker.chargeLockOut = true;
-								attackerTeam.forEach(char => {
-									if (char.id !== attacker.id) {
-										if (char.chargeLockOut === false) {
-											handleChargeGain({ attacker: char, times: 1 });
-										}
-									}
+							if (playerTeam === attackerTeam) {
+								chargeAttacksHappened = handlePlayerTurn({
+									attacker,
+									attackerTeam,
+									target,
+									chargeAttacksHappened,
 								});
-							} else {
-								attackNormal(attacker, target);
-								if (attackerTeam === playerTeam) {
-									handleChargeGain({ attacker, times: 1 });
-								}
+							}
+							if (enemyTeam === attackerTeam) {
+								handleEnemyTurn({ attacker, attackerTeam, target });
 							}
 						}
 					}
 				});
 
-				if (chargeAttacksHappened > 0) {
-					attackLimitBreak(attackerTeam, targetTeam, chargeAttacksHappened);
-				}
 				if (attackerTeam === playerTeam) {
 					attackerTeam.forEach(char => {
 						char.chargeLockOut = false;
 					});
+					if (chargeAttacksHappened > 1) {
+						attackLimitBreak(attackerTeam, targetTeam, chargeAttacksHappened);
+					}
 				}
+				if (attackerTeam === enemyTeam) {
+				}
+
 				if (availableTargets.find(target => target.id === selectedTarget) !== undefined) {
 					if (selectedTarget !== 0) {
 						const selectedTargetObj = updatedTargetTeam.find(target => target.id === selectedTarget);

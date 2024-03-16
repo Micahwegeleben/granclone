@@ -69,6 +69,15 @@ const RenderTeam = ({ character, handleSelectTargetButton }) => {
 					}}
 					color="success"
 				/>
+				<p>
+					{character.diamonds === 0
+						? '◇◇◇'
+						: character.diamonds === 1
+						? '◆◇◇'
+						: character.diamonds === 2
+						? '◆◆◇'
+						: '◆◆◆ Special incoming!'}
+				</p>
 				<p>Attack: {character.attack}</p>
 				<p>Armor: {character.armor}</p>
 			</div>

@@ -77,7 +77,7 @@ const BattleFieldRender = ({ globalAttack }) => {
 			<h1>Granblue Clone</h1>
 			{gameState === 'win' && <GameOverScreen onRestart={handleRestart} victory={true} />}
 			{gameState === 'loss' && <GameOverScreen onRestart={handleRestart} victory={false} />}
-			{gameState === 'win' || ('loss' && <div className="freeze-layer" />)}
+			{gameState === ('win' || 'loss') && <div className="freeze-layer" />}
 			<div className="teams-wrapper">
 				<div className="team-container">
 					<FormGroup>
