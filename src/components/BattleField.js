@@ -25,6 +25,8 @@ const Game = () => {
 		setHoveredSkill,
 		showDescriptions,
 		setShowDescriptions,
+		holdCharge,
+		setHoldCharge,
 	} = useGameState();
 
 	React.useEffect(() => {
@@ -64,10 +66,6 @@ const Game = () => {
 		setPlayerTeam(playerTeam.map(character => ({ ...character })));
 	}, [currentTurn]);
 
-	React.useEffect(() => {
-		console.log(hoveredSkill);
-	}, [hoveredSkill]);
-
 	const applyBuff = (character, buffName, remainingDuration) => {
 		const newBuff = { name: buffName, remainingDuration };
 
@@ -83,16 +81,34 @@ const Game = () => {
 		return { ...character };
 	};
 
+	const attackLimitBreak = (attackerTeam, targetTeam, num) => {
+		let damage = 0;
+		if (num === 4) {
+			damage = num * 370;
+		} else {
+			if (num === 3) {
+				damage = num * 320;
+			} else {
+				damage = num * 220;
+			}
+		}
+		setAttackLog(prevLog => [...prevLog, `Limit Break! ${num}! ${damage} damage has been dealt to all foes!`]);
+
+		targetTeam.forEach(target => {
+			handleDamage({ target, damage });
+		});
+	};
+
 	const attackCharge = (attacker, target) => {
-		let damage = calcDamage({ target, attacker }) * 2;
+		let damage = calcDamage({ target, attacker }) * 4;
 		handleDamage({ target, damage });
 		attacker.charge = 0;
-		battleLog({ attacker, target, damage, currentTurn, setAttackLog });
+		battleLog({ attacker, target, damage, currentTurn, setAttackLog, attackLog });
 	};
 	const attackNormal = (attacker, target) => {
 		let damage = calcDamage({ target, attacker });
 		handleDamage({ target, damage });
-		battleLog({ attacker, target, damage, currentTurn, setAttackLog });
+		battleLog({ attacker, target, damage, currentTurn, setAttackLog, attackLog });
 	};
 
 	const globalAttack = (targetTeam, setTargetTeam, attackerTeam) => {
@@ -102,6 +118,7 @@ const Game = () => {
 			const updatedTargetTeam = [...targetTeam];
 			if (Array.isArray(availableTargets) && availableTargets.length > 0 && availableAttackers.length > 0) {
 				setCurrentTurn(currentTurn + 1);
+				var chargeAttacksHappened = 0;
 				attackerTeam.forEach(attacker => {
 					if (attacker.health > 0) {
 						let target = determineTarget({
@@ -112,13 +129,13 @@ const Game = () => {
 							selectedTarget,
 						});
 						if (target !== undefined) {
-							if (attacker.charge >= 100) {
+							if (attacker.charge >= 100 && holdCharge === false) {
+								chargeAttacksHappened += 1;
 								attackCharge(attacker, target);
 								attacker.chargeLockOut = true;
 								attackerTeam.forEach(char => {
 									if (char.id !== attacker.id) {
 										if (char.chargeLockOut === false) {
-											console.log(char.chargeLockOut);
 											handleChargeGain({ attacker: char, times: 1 });
 										}
 									}
@@ -132,6 +149,10 @@ const Game = () => {
 						}
 					}
 				});
+
+				if (chargeAttacksHappened > 0) {
+					attackLimitBreak(attackerTeam, targetTeam, chargeAttacksHappened);
+				}
 				if (attackerTeam === playerTeam) {
 					attackerTeam.forEach(char => {
 						char.chargeLockOut = false;

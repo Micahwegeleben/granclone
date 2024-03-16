@@ -1,0 +1,28 @@
+.startscreen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: top;
+	height: 100vh;
+	background-color: #282c34;
+	color: white;
+}
+
+h1 {
+	margin-top: 50px;
+}
+
+.start {
+	margin-top: 90px;
+}
+
+ul {
+	margin-top: 0px;
+	max-width: 700px;
+	/* Increase font size */
+	font-size: 20px;
+}
+
+li {
+	margin: 15px;
+}

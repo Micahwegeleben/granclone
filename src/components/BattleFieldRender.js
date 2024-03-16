@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import './BattleField.css';
 import Button from '@mui/material/Button';
 import RenderPlayerTeam from './RenderPlayerTeam';
@@ -36,6 +39,8 @@ const BattleFieldRender = ({ globalAttack }) => {
 		setHoveredSkill,
 		showDescriptions,
 		setShowDescriptions,
+		holdCharge,
+		setHoldCharge,
 	} = useGameState();
 
 	const handleReloadButton = () => {
@@ -64,6 +69,9 @@ const BattleFieldRender = ({ globalAttack }) => {
 		window.location.reload();
 	};
 
+	const handleToggleHoldChargeAttack = () => {
+		setHoldCharge(!holdCharge);
+	};
 	return (
 		<div>
 			<h1>Granblue Clone</h1>
@@ -72,6 +80,12 @@ const BattleFieldRender = ({ globalAttack }) => {
 			{gameState === 'win' || ('loss' && <div className="freeze-layer" />)}
 			<div className="teams-wrapper">
 				<div className="team-container">
+					<FormGroup>
+						<FormControlLabel
+							control={<Checkbox checked={holdCharge} onChange={handleToggleHoldChargeAttack} />}
+							label="Hold Charge Attack"
+						/>
+					</FormGroup>
 					<h2>Player Team</h2>
 					{playerTeam.map(character => (
 						<RenderPlayerTeam character={character} />
@@ -99,6 +113,7 @@ const BattleFieldRender = ({ globalAttack }) => {
 						Attack
 					</Button>
 					<div className="container">
+						<h3 style={{ marginTop: '5px', textDecoration: 'underline' }}>Skill</h3>
 						{hoveredSkill.name}
 						<br />
 						<br />
@@ -108,6 +123,14 @@ const BattleFieldRender = ({ globalAttack }) => {
 						{hoveredSkill.description}
 					</div>
 					<div className="container">
+						<h3
+							style={{
+								marginTop: '5px',
+								textDecoration: 'underline',
+							}}
+						>
+							Player Buffs/Debuffs
+						</h3>
 						<Button
 							onClick={() => {
 								setShowDescriptions(!showDescriptions);
@@ -137,6 +160,7 @@ const BattleFieldRender = ({ globalAttack }) => {
 						})}
 					</div>
 					<div className="container">
+						<h3 style={{ marginTop: '5px', textDecoration: 'underline' }}>Enemy Buffs/Debuffs</h3>
 						{enemyTeam.map(character => {
 							return (
 								<div>
@@ -173,9 +197,7 @@ const BattleFieldRender = ({ globalAttack }) => {
 				<h2>Attack Log</h2>
 				<ul>
 					{attackLog.map((log, index) => (
-						<li key={index}>
-							{`Turn ${log.turn}: ${log.attacker} attacked ${log.defender} for ${log.damage} damage, leaving them at ${log.remainingHealth}`}
-						</li>
+						<li key={index}>{log}</li>
 					))}
 				</ul>
 			</div>

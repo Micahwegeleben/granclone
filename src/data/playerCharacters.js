@@ -3,23 +3,8 @@ const initialPlayerTeam = [
 		id: 1,
 		name: 'Korwa',
 		chargeLockOut: false,
-		buffs: [
-			{
-				name: 'Attack Up1',
-				description: 'Increases attack by 50%',
-				remainingDuration: 3,
-			},
-			{
-				name: 'Attack Up2',
-				description: 'Increases attack by 50%',
-				remainingDuration: 4,
-			},
-			{
-				name: 'Attack Up3',
-				description: 'Increases attack by 50%',
-				remainingDuration: 3,
-			},
-		],
+		chargeHold: false,
+		buffs: [],
 		health: 1000.0,
 		maxHealth: 1000.0,
 		mana: 100.0,
@@ -81,6 +66,7 @@ const initialPlayerTeam = [
 	{
 		id: 2,
 		name: 'Zeta',
+		chargeHold: false,
 		chargeLockOut: false,
 		buffs: [],
 		health: 1000.0,
@@ -134,6 +120,7 @@ const initialPlayerTeam = [
 	{
 		id: 3,
 		name: 'Sandalphon',
+		chargeHold: false,
 		chargeLockOut: false,
 		buffs: [],
 		health: 1000.0,

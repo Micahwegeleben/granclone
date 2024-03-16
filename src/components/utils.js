@@ -61,7 +61,7 @@ export const checkWin = ({ playerTeam, enemyTeam, setGameState }) => {
 	}
 };
 
-export const battleLog = ({ attacker, target, damage, currentTurn, setAttackLog }) => {
+export const battleLog = ({ attacker, target, damage, currentTurn, setAttackLog, attackLog }) => {
 	const attackDetails = {
 		turn: currentTurn,
 		attacker: attacker.name,
@@ -69,5 +69,8 @@ export const battleLog = ({ attacker, target, damage, currentTurn, setAttackLog 
 		damage: damage,
 		remainingHealth: target.health,
 	};
-	setAttackLog(prevLog => [...prevLog, attackDetails]);
+	setAttackLog(prevLog => [
+		...prevLog,
+		`Turn ${attackDetails.turn}: ${attackDetails.attacker} attacked ${attackDetails.defender} for ${attackDetails.damage} damage, leaving them at ${attackDetails.remainingHealth}`,
+	]);
 };

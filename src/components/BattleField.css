@@ -6,6 +6,10 @@ body {
 	background-color: #404c51;
 }
 
+h2 {
+	margin-top: 10px;
+}
+
 .teams-wrapper {
 	display: flex;
 	justify-content: space-evenly;

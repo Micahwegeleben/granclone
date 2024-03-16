@@ -3,14 +3,7 @@ const initialEnemyTeam = [
 		id: 4,
 		name: 'Gabriel',
 		title: 'Primarch of Water',
-		buffs: [
-			{
-				name: 'Attack Up',
-				description: 'Increases attack by 50%',
-				attackIncrease: 50,
-				remainingDuration: 3,
-			},
-		],
+		buffs: [],
 		health: 10000,
 		maxHealth: 10000.0,
 		armor: 30,

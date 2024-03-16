@@ -4,6 +4,7 @@ import BattleField from './components/BattleField';
 import GameStateContext from './components/GameStateContext';
 import initialPlayerTeam from './data/playerCharacters';
 import initialEnemyTeam from './data/enemyCharacters';
+import StartScreen from './components/StartScreen';
 
 function App() {
 	const [playerTeam, setPlayerTeam] = useState(initialPlayerTeam);
@@ -14,19 +15,8 @@ function App() {
 	const [gameState, setGameState] = useState('start');
 	const [hoveredSkill, setHoveredSkill] = useState(playerTeam[0].skills[0]);
 	const [showDescriptions, setShowDescriptions] = useState(false);
+	const [holdCharge, setHoldCharge] = useState(false);
 
-	const initialize = () => {
-		setPlayerTeam(...initialPlayerTeam);
-		setEnemyTeam(...initialEnemyTeam);
-		setAttackLog([]);
-		setCurrentTurn(1);
-		setSelectedTarget(0);
-		setGameState('start');
-		setHoveredSkill(playerTeam[0].skills[0]);
-		setShowDescriptions(false);
-		//wip
-		window.location.reload();
-	};
 	return (
 		<GameStateContext.Provider
 			value={{
@@ -46,24 +36,14 @@ function App() {
 				setHoveredSkill,
 				showDescriptions,
 				setShowDescriptions,
+				holdCharge,
+				setHoldCharge,
 			}}
 		>
 			<div>
 				{
 					//if is playing then render battlefield
-					gameState === 'playing' ? (
-						<BattleField />
-					) : gameState === 'start' ? (
-						<Button
-							variant="contained"
-							onClick={() => setGameState('playing')}
-							style={{ margin: 'auto', display: 'block', marginTop: '20px' }}
-						>
-							Start Game
-						</Button>
-					) : (
-						<BattleField />
-					)
+					gameState === 'playing' ? <BattleField /> : gameState === 'start' ? <StartScreen /> : <BattleField />
 				}
 			</div>
 		</GameStateContext.Provider>
