@@ -3,11 +3,11 @@ body {
 	margin: 0;
 	padding: 0;
 	color: #012b42;
-	background-color: #404c51;
 }
 
 h2 {
 	margin-top: 10px;
+	color: white;
 }
 
 .teams-wrapper {
@@ -22,7 +22,7 @@ h2 {
 	border: 12px solid #4788a4;
 	border-radius: 8px;
 	margin: 20px 10px 20px 10px;
-	background-color: #d5d6d5;
+	background-color: rgba(35, 30, 23, 0.405);
 	/* Space up */
 	display: flex;
 	flex-direction: column;
@@ -36,7 +36,8 @@ h2 {
 	border: 12px solid #4788a4;
 	border-radius: 8px;
 	margin: 20px 10px 20px 10px;
-	background-color: #d5d6d5;
+	background-color: rgba(19, 40, 64, 0.63);
+	color: white;
 	/* Space up */
 	display: flex;
 	flex-direction: column;

@@ -1,11 +1,27 @@
+body {
+	background-image: url('../assets/bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
 .startscreen {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: top;
 	height: 100vh;
-	background-color: #282c34;
 	color: white;
+}
+
+.startscreenmiddle {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: top;
+	height: 100vh;
+	color: white;
+	background-color: rgba(35, 30, 23, 0.405);
 }
 
 h1 {

@@ -75,13 +75,19 @@ const BattleFieldRender = ({ globalAttack }) => {
 	return (
 		<div>
 			<h1>Granblue Clone</h1>
-			{gameState === 'win' && <GameOverScreen onRestart={handleRestart} victory={true} />}
-			{gameState === 'loss' && <GameOverScreen onRestart={handleRestart} victory={false} />}
-			{gameState === ('win' || 'loss') && <div className="freeze-layer" />}
+			{gameState === 'win' ? (
+				<GameOverScreen onRestart={handleRestart} victory={true} />
+			) : gameState === 'loss' ? (
+				<GameOverScreen onRestart={handleRestart} victory={false} />
+			) : null}
+
 			<div className="teams-wrapper">
 				<div className="team-container">
 					<FormGroup>
 						<FormControlLabel
+							style={{
+								backgroundColor: '#4788a4',
+							}}
 							control={<Checkbox checked={holdCharge} onChange={handleToggleHoldChargeAttack} />}
 							label="Hold Charge Attack"
 						/>
@@ -135,6 +141,7 @@ const BattleFieldRender = ({ globalAttack }) => {
 							onClick={() => {
 								setShowDescriptions(!showDescriptions);
 							}}
+							variant="contained"
 						>
 							Toggle Descriptions
 						</Button>
@@ -192,7 +199,6 @@ const BattleFieldRender = ({ globalAttack }) => {
 				</div>
 			</div>
 			<button onClick={handleReloadButton}>New Game</button>
-
 			<div className="attack-log">
 				<h2>Attack Log</h2>
 				<ul>
