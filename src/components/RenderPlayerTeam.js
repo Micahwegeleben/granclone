@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import './BattleField.css';
 import './RenderCards.css';
 import Tooltip from '@mui/material/Tooltip';
-import { checkWin } from './utils';
+import { checkWin, handleDamage, battleLog } from './utils';
 import { useGameState } from './GameStateContext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
@@ -16,19 +16,67 @@ const theme = createTheme({
 });
 
 const handleSkillButton = props => {
-	props.skill.cooldown = props.skill.maxCooldown;
-	props.setPlayerTeam(props.playerTeam.map(char => ({ ...char })));
-	props.skill.useSkill({
-		character: props.character,
-		playerTeam: props.playerTeam,
-		enemyTeam: props.enemyTeam,
-		selectedTarget: props.selectedTarget,
-	});
-	checkWin({
-		playerTeam: props.playerTeam,
-		enemyTeam: props.enemyTeam,
-		setGameState: props.setGameState,
-	});
+        const {
+                character,
+                skill,
+                playerTeam,
+                setPlayerTeam,
+                enemyTeam,
+                setEnemyTeam,
+                selectedTarget,
+                attackLog,
+                setAttackLog,
+                currentTurn,
+                setGameState,
+        } = props;
+
+        if (character.mana < skill.manaCost) {
+                setAttackLog(prev => [
+                        ...prev,
+                        `${character.name} doesn't have enough mana to cast ${skill.name}!`,
+                ]);
+                return;
+        }
+
+        character.mana -= skill.manaCost;
+        skill.cooldown = skill.maxCooldown;
+
+        if (skill.damage) {
+                let target =
+                        selectedTarget !== 0
+                                ? enemyTeam.find(t => t.id === selectedTarget && t.health > 0)
+                                : enemyTeam.find(t => t.health > 0);
+                if (target) {
+                        handleDamage({ target, damage: skill.damage });
+                        battleLog({
+                                attacker: character,
+                                target,
+                                damage: skill.damage,
+                                currentTurn,
+                                setAttackLog,
+                                attackLog,
+                        });
+                }
+                setEnemyTeam(enemyTeam.map(char => ({ ...char })));
+        } else if (skill.healAmount) {
+                character.health += skill.healAmount;
+                if (character.health > character.maxHealth) {
+                        character.health = character.maxHealth;
+                }
+                setAttackLog(prev => [
+                        ...prev,
+                        `${character.name} healed for ${skill.healAmount}`,
+                ]);
+        } else if (skill.armorIncrease) {
+                character.armor += skill.armorIncrease;
+                setAttackLog(prev => [
+                        ...prev,
+                        `${character.name} increased armor by ${skill.armorIncrease}`,
+                ]);
+        }
+
+        setPlayerTeam(playerTeam.map(char => ({ ...char })));
+        checkWin({ playerTeam, enemyTeam, setGameState });
 };
 
 const RenderTeam = ({ character }) => {
@@ -125,18 +173,26 @@ const RenderTeam = ({ character }) => {
 											handleSkillButton({
 												character,
 												skill,
-												playerTeam,
-												setPlayerTeam,
-												enemyTeam,
-												selectedTarget,
-												gameState,
-												setGameState,
-											})
-										}
-										disabled={character.health <= 0 || skill.cooldown > 0 || gameState !== 'playing'}
-										style={{
-											width: '50px',
-											height: '50px',
+                                                                                                playerTeam,
+                                                                                                setPlayerTeam,
+                                                                                                enemyTeam,
+                                                                                                setEnemyTeam,
+                                                                                                selectedTarget,
+                                                                                                attackLog,
+                                                                                                setAttackLog,
+                                                                                                currentTurn,
+                                                                                                setGameState,
+                                                                                        })
+                                                                                }
+                                                                                disabled={
+                                                                                        character.health <= 0 ||
+                                                                                        skill.cooldown > 0 ||
+                                                                                        gameState !== 'playing' ||
+                                                                                        character.mana < skill.manaCost
+                                                                                }
+                                                                                style={{
+                                                                                        width: '50px',
+                                                                                        height: '50px',
 											borderRadius: '0px',
 											margin: '4px',
 											marginBottom: '0px',

@@ -1,9 +1,10 @@
 export const calcDamage = ({ target, attacker }) => {
-	let armorCalc = target.armor;
-	if (armorCalc > 50) {
-		armorCalc = 50;
-	}
-	return attacker.attack - armorCalc;
+        let armorCalc = target.armor;
+        if (armorCalc > 50) {
+                armorCalc = 50;
+        }
+        // Ensure damage cannot be negative
+        return Math.max(0, attacker.attack - armorCalc);
 };
 
 export const getRandomTarget = targetTeam => {
@@ -50,15 +51,13 @@ export const handleChargeGain = ({ attacker, times }) => {
 };
 
 export const checkWin = ({ playerTeam, enemyTeam, setGameState }) => {
-	const availablePlayers = playerTeam.filter(target => target.health > 0);
-	const availableEnemies = enemyTeam.filter(target => target.health > 0);
-	if (availableEnemies <= 0) {
-		setGameState('win');
-	} else {
-		if (availablePlayers <= 0) {
-			setGameState('loss');
-		}
-	}
+        const availablePlayers = playerTeam.filter(target => target.health > 0);
+        const availableEnemies = enemyTeam.filter(target => target.health > 0);
+        if (availableEnemies.length <= 0) {
+                setGameState('win');
+        } else if (availablePlayers.length <= 0) {
+                setGameState('loss');
+        }
 };
 
 export const battleLog = ({ attacker, target, damage, currentTurn, setAttackLog, attackLog }) => {
