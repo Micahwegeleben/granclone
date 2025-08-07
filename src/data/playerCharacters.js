@@ -15,25 +15,15 @@ const initialPlayerTeam = [
 		maxCharge: 100,
 		img: 'https://gbf.wiki/images/thumb/f/f9/Npc_m_3040081000_01.jpg/150px-Npc_m_3040081000_01.jpg',
 		skills: [
-			{
-				id: 1,
-				name: 'Fireball1',
-				description: 'Pew',
-				damage: 200,
-				manaCost: 50,
-				maxCooldown: 5,
-				cooldown: 0,
-				useSkill: function ({ character, playerTeam, enemyTeam, selectedTarget }) {
-					let target = null;
-					if (selectedTarget !== undefined && selectedTarget !== 0) {
-						target = enemyTeam.find(target => target.id === selectedTarget);
-						console.log('fireball has hit a selected target: ', target);
-					} else {
-						target = enemyTeam.find(target => target.id === 4 || target.id === 5 || target.id === 6);
-						console.log('fireball has hit the first available target: ', target.name);
-					}
-				},
-			},
+                        {
+                                id: 1,
+                                name: 'Fireball1',
+                                description: 'Pew',
+                                damage: 200,
+                                manaCost: 50,
+                                maxCooldown: 5,
+                                cooldown: 0,
+                        },
 			{
 				id: 2,
 				name: 'Heal1',
