@@ -52,9 +52,9 @@ export const handleChargeGain = ({ attacker, times }) => {
 export const checkWin = ({ playerTeam, enemyTeam, setGameState }) => {
        const availablePlayers = playerTeam.filter(target => target.health > 0);
        const availableEnemies = enemyTeam.filter(target => target.health > 0);
-       if (availableEnemies.length <= 0) {
+       if (availableEnemies.length === 0) {
                setGameState('win');
-       } else if (availablePlayers.length <= 0) {
+       } else if (availablePlayers.length === 0) {
                setGameState('loss');
        }
 };
