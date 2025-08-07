@@ -64,11 +64,11 @@ const RenderTeam = ({ character, handleSelectTargetButton }) => {
 						borderRadius: '50px', // Optional: add rounded corners
 						boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', // Optional: add a subtle shadow
 						height: '12px',
-						//create a logarithmic equation that will be used for the width of the healthbar, scaling with the maxhealth of the character. at 500 maxhealth, the width should be 25%, while at 1 million maxhealth it should be 100%
-						width: `${30 + (75 * Math.log10(character.maxHealth / 500)) / 3.25}%`,
-					}}
-					color="success"
-				/>
+                                                //create a logarithmic equation that will be used for the width of the healthbar, scaling with the maxHealth of the character. at 500 maxHealth, the width should be 25%, while at 1 million maxHealth it should be 100%
+                                                width: `${30 + (75 * Math.log10(character.maxHealth / 500)) / 3.25}%`,
+                                        }}
+                                        color="success"
+                                />
 				<p>
 					{character.diamonds === 0
 						? '◇◇◇'
